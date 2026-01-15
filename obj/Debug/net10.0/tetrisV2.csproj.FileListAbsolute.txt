@@ -20,3 +20,4 @@ c:\Users\karum\Desktop\0Vscode\c#\RaylibCS\tetrisV2\obj\Debug\net10.0\refint\tet
 c:\Users\karum\Desktop\0Vscode\c#\RaylibCS\tetrisV2\obj\Debug\net10.0\tetrisV2.pdb
 c:\Users\karum\Desktop\0Vscode\c#\RaylibCS\tetrisV2\obj\Debug\net10.0\tetrisV2.genruntimeconfig.cache
 c:\Users\karum\Desktop\0Vscode\c#\RaylibCS\tetrisV2\obj\Debug\net10.0\ref\tetrisV2.dll
+c:\Users\karum\Desktop\0Vscode\c#\RaylibCS\tetrisV2\obj\Debug\net10.0\tetrisV2.sourcelink.json
