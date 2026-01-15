@@ -1,7 +1,7 @@
-using System.Globalization;
 using System.Numerics;
 using GameClass;
 using Raylib_cs;
+using TetrisPieceClass;
 
 namespace GridClass;
 
@@ -11,13 +11,19 @@ public class GridPiece
     public Color colour;
     public Vector2 position;
 
-    public bool occupied = false;
     public bool isBorder = false;
+
+    public TetrisPiece? myPiece = null;
 
     public void Draw()
     {
-        if (!occupied) colour = Color.White;
+        if (myPiece == null) colour = Color.White;
+        else colour = myPiece.colour;
+
         if (isBorder) colour = Color.Red;
+
+
+
         Raylib.DrawRectangleV(position, new Vector2(pieceSize, pieceSize), colour);
     }
 }
