@@ -26,6 +26,7 @@ public class TetrisPiece
             int y = (int)vector.Y;
 
             game.grid.grid[y][x].myPiece = this;
+            game.grid.grid[y][x].isOccupied = true;
         }   
     }
 
@@ -56,15 +57,46 @@ public class TetrisPiece
         extremes[2] = smallestY;
         extremes[3] = biggestY;
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < extremes.Length; i++)
         {
             Raylib.DrawText($"{extremes[i]}", 20, 20 * i, 25, Color.White);
         }
+
 
         for (int i = 0; i < gridPositions.Count; i++)
         {
             Raylib.DrawText($"{gridPositions[i]}", 20, 20 * i + 80, 25, Color.White);
         }
+    }
+
+    public void Move(Vector2 movement)
+    {
+        SetExtremes();
+
+        for (int i = 0; i < gridPositions.Count; i++)
+        {
+            Vector2 newCoord = gridPositions[i];
+            if(!CanMoveDown()) movement.Y = 0;
+
+            newCoord += movement;
+
+            int x = (int)gridPositions[i].X;
+            int y = (int)gridPositions[i].Y;
+
+            game.grid.grid[y][x].isOccupied = false;
+            game.grid.grid[y][x].myPiece = null;
+
+            gridPositions[i] = newCoord;
+            Console.WriteLine($"{movement}");
+        }
+
+    }
+
+    public bool CanMoveDown()
+    {
+        int x = (int)gridPositions[2].X;
+        if (game.grid.grid[extremes[3] + 1][x].isBorder || game.grid.grid[extremes[3] + 1][x].isOccupied) return false;
+        return true;
     }
 
 }

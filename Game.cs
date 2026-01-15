@@ -15,6 +15,7 @@ public class Game
 
     public Grid grid = new Grid(21, 11);
     
+    TetrisPiece activePiece;
 
     public void Run()
     {
@@ -25,15 +26,20 @@ public class Game
 
         TPiece tpiece = new TPiece(this);
 
+        activePiece = tpiece;
+
+
         while (!Raylib.WindowShouldClose())
         {
             Raylib.BeginDrawing();
 
             Raylib.ClearBackground(Color.Black);
-
             grid.Update();
-            tpiece.Draw();
-            tpiece.SetExtremes();
+
+
+            time += Raylib.GetFrameTime();
+            if (time > 1) {activePiece.Move(new Vector2(0, 1)); time = 0;}
+            activePiece.Draw();
 
             Raylib.EndDrawing();
         }

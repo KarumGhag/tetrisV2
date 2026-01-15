@@ -15,6 +15,8 @@ public class GridPiece
 
     public TetrisPiece? myPiece = null;
 
+    public bool isOccupied = false;
+
     public void Draw()
     {
         if (myPiece == null) colour = Color.White;
@@ -87,7 +89,5 @@ public class Grid
                 grid[rows][cols].Draw();
             }
         }
-
-
     }
 }
