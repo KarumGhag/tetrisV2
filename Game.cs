@@ -12,7 +12,7 @@ public class Game
 
     public float time;
 
-    Grid grid = new Grid(20, 10);
+    Grid grid = new Grid(21, 11);
     
 
     public void Run()

@@ -7,15 +7,17 @@ namespace GridClass;
 
 public class GridPiece
 {
-    public static int pieceSize = 50;
+    public static int pieceSize = 40;
     public Color colour;
     public Vector2 position;
 
     public bool occupied = false;
+    public bool isBorder = false;
 
     public void Draw()
     {
         if (!occupied) colour = Color.White;
+        if (isBorder) colour = Color.Red;
         Raylib.DrawRectangleV(position, new Vector2(pieceSize, pieceSize), colour);
     }
 }
@@ -29,13 +31,14 @@ public class Grid
 
     public Grid(int rows, int cols)
     {
-        this.numRows = rows;
-        this.numCols = cols;
+        numRows = rows;
+        numCols = cols;
 
         grid = new List<List<GridPiece>>();
 
         int xOffset = (Game.width / 2) - ((numCols / 2) * GridPiece.pieceSize);
-        offset = new Vector2(xOffset, 50);
+        int yOffset = 100;
+        offset = new Vector2(xOffset, yOffset);
 
     }
 
@@ -47,6 +50,7 @@ public class Grid
             for (int cols = 0; cols < numCols; cols++)
             {
                 GridPiece piece = new GridPiece();
+
                 piece.position.X = GridPiece.pieceSize * cols + offset.X;
                 piece.position.Y = GridPiece.pieceSize * rows + offset.Y;
 
@@ -55,15 +59,26 @@ public class Grid
 
             grid.Add(row);
         }
+
+        for (int rows = 0; rows < numRows; rows++)
+        {
+            grid[rows][0].isBorder = true;
+            grid[rows][numCols - 1].isBorder = true;
+        }
+
+        for (int cols = 0; cols < numCols; cols++)
+        {
+            grid[numRows - 1][cols].isBorder = true;
+        }
     }
 
     public void Update()
     {
-        for (int i = 0; i < grid.Count; i++)
+        for (int rows = 0; rows < grid.Count; rows++)
         {
-            for (int j = 0; j < grid[i].Count; j++)
+            for (int cols = 0; cols < grid[rows].Count; cols++)
             {
-                grid[i][j].Draw();
+                grid[rows][cols].Draw();
             }
         }
 
