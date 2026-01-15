@@ -33,6 +33,7 @@ public class Game
 
             grid.Update();
             tpiece.Draw();
+            tpiece.SetExtremes();
 
             Raylib.EndDrawing();
         }
