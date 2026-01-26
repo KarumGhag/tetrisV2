@@ -43,7 +43,7 @@ public class Game
 
 
             time += Raylib.GetFrameTime();
-            if (time - lastGravTickTime > 1) {activePiece.Move(new Vector2(0, 1)); lastGravTickTime = time;}
+            if (time - lastGravTickTime > 1 && !Raylib.IsKeyDown(KeyboardKey.W)) {activePiece.Move(new Vector2(0, 1)); lastGravTickTime = time;}
 
             if (Raylib.IsKeyDown(KeyboardKey.W) && time - lastSoftDropTime > softDropCoolDown) {activePiece.Move(new Vector2(0, 1)); lastSoftDropTime = time;}
             
