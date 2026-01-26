@@ -29,8 +29,9 @@ public class Game
         grid.MakeGrid();
 
         TPiece tpiece = new TPiece(this);
+        IPiece ipiece = new IPiece(this);
 
-        activePiece = tpiece;
+        activePiece = ipiece;
 
 
         while (!Raylib.WindowShouldClose())

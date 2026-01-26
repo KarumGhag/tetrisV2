@@ -106,13 +106,6 @@ public class TetrisPiece
         }
     }
 
-    public void NewMove(Vector2 movement)
-    {
-        SetExtremes();
-
-        
-    }
-
     public bool newCanMoveDown()
     {
         int x = (int)gridPositions[3].X;
@@ -125,7 +118,7 @@ public class TetrisPiece
         for (int i = 0; i < gridPositions.Count; i++)
         {
             int x = (int)gridPositions[i].X;
-            if (game.grid.grid[extremes[3] + 1][x].isBorder || game.grid.grid[extremes[3] + 1][x].isOccupied) return false;
+            if (game.grid.grid[extremes[3] + 1][x].isBorder || (game.grid.grid[extremes[3] + 1][x].isOccupied && game.grid.grid[extremes[3] + 1][x].myPiece != this)) return false;
         }
 
         return true;
@@ -140,5 +133,14 @@ public class TPiece : TetrisPiece
     {
         colour = Color.Purple;
         gridPositions = new List<Vector2> { new Vector2(5, 0), new Vector2(4, 1), new Vector2(5, 1), new Vector2(6, 1) };
+    }
+}
+
+public class IPiece : TetrisPiece
+{
+    public IPiece(Game game) : base(game)
+    {
+        colour = Color.SkyBlue;
+        gridPositions = new List<Vector2>() { new Vector2(5, 0), new Vector2(5, 1), new Vector2(5, 2), new Vector2(5, 3) };
     }
 }
