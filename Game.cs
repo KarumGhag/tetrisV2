@@ -12,10 +12,14 @@ public class Game
 
 
     public float time;
+    public float lastGravTickTime = 0;
+
+    public float softDropCoolDown = 0.1f;
+    public float lastSoftDropTime = 0;
 
     public Grid grid = new Grid(21, 11);
     
-    TetrisPiece activePiece;
+    TetrisPiece? activePiece;
 
     public void Run()
     {
@@ -38,8 +42,13 @@ public class Game
 
 
             time += Raylib.GetFrameTime();
-            if (time > 1) {activePiece.Move(new Vector2(0, 1)); time = 0;}
+            if (time - lastGravTickTime > 1) {activePiece.Move(new Vector2(0, 1)); lastGravTickTime = time;}
+
+            if (Raylib.IsKeyDown(KeyboardKey.W) && time - lastSoftDropTime > softDropCoolDown) {activePiece.Move(new Vector2(0, 1)); lastSoftDropTime = time;}
+            
             activePiece.Draw();
+
+
 
             Raylib.EndDrawing();
         }

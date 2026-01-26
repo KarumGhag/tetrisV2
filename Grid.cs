@@ -19,11 +19,11 @@ public class GridPiece
 
     public void Draw()
     {
+        if(isOccupied) colour = Color.Red;
         if (myPiece == null) colour = Color.White;
         else colour = myPiece.colour;
 
         if (isBorder) colour = Color.Red;
-
 
 
         Raylib.DrawRectangleV(position, new Vector2(pieceSize, pieceSize), colour);
