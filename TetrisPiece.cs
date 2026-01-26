@@ -85,11 +85,11 @@ public class TetrisPiece
     public void Move(Vector2 movement)
     {
         SetExtremes();
+        if(!CanMoveDown()) movement.Y = 0;
 
         for (int i = 0; i < gridPositions.Count; i++)
         {
             Vector2 newCoord = gridPositions[i];
-            if(!CanMoveDown()) movement.Y = 0;
 
 
             newCoord += movement;
@@ -104,16 +104,32 @@ public class TetrisPiece
             game.grid.grid[(int)newCoord.Y][(int)newCoord.X].isOccupied = true;
             
         }
-
     }
 
-    public bool CanMoveDown()
+    public void NewMove(Vector2 movement)
+    {
+        SetExtremes();
+
+        
+    }
+
+    public bool newCanMoveDown()
     {
         int x = (int)gridPositions[3].X;
         if (game.grid.grid[extremes[3] + 1][x].isBorder || game.grid.grid[extremes[3] + 1][x].isOccupied) return false;
         return true;
     }
 
+    public bool CanMoveDown()
+    {
+        for (int i = 0; i < gridPositions.Count; i++)
+        {
+            int x = (int)gridPositions[i].X;
+            if (game.grid.grid[extremes[3] + 1][x].isBorder || game.grid.grid[extremes[3] + 1][x].isOccupied) return false;
+        }
+
+        return true;
+    }
 
 
 }
