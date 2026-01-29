@@ -1,4 +1,5 @@
 using System.Numerics;
+using System.Reflection.Metadata;
 using GameClass;
 using GridClass;
 using Raylib_cs;
@@ -11,7 +12,8 @@ public class TetrisPiece
     public Color colour;
     public List<Vector2> gridPositions = new List<Vector2>();
 
-    int[] extremes = [0, 0, 0, 0];
+    int[] extremes = new int[4];
+    Vector2[] extremesPositions = new Vector2[4];
 
     public TetrisPiece(Game game)
     {
@@ -31,13 +33,13 @@ public class TetrisPiece
 
         for (int i = 0; i < extremes.Length; i++)
         {
-            Raylib.DrawText($"{extremes[i]}", 20, 20 * i, 25, Color.White);
+            Raylib.DrawText($"{extremesPositions[i]}", 20, 20 * i, 25, Color.White);
         }
 
 
         for (int i = 0; i < gridPositions.Count; i++)
         {
-            Raylib.DrawText($"{gridPositions[i]}", 20, 20 * i + 80, 25, Color.White);
+            Raylib.DrawText($"{gridPositions[i]}", 20, 20 * i + 100, 25, Color.White);
         }
 
 
@@ -46,40 +48,44 @@ public class TetrisPiece
     public void SetExtremes()
     {
         int smallestX = 100;
+        int smallestXY = 100;
+
         int biggestX  = -1;
+        int biggestXY = -1;
 
         for (int i = 0; i < gridPositions.Count; i++)
         {
-            if (gridPositions[i].X < smallestX) smallestX = (int)gridPositions[i].X;
-            if (gridPositions[i].X > biggestX)  biggestX = (int)gridPositions[i].X;
+            if (gridPositions[i].X < smallestX) {smallestX = (int)gridPositions[i].X; smallestXY = (int)gridPositions[i].Y; }
+
+            if (gridPositions[i].X > biggestX)  {biggestX = (int)gridPositions[i].X; biggestXY = (int)gridPositions[i].Y;    }
         }
 
         extremes[0]  = smallestX;
         extremes[1] = biggestX;
 
+        extremesPositions[0] = new Vector2(smallestX, smallestXY);
+        extremesPositions[1] = new Vector2(biggestX, biggestXY);
+
 
         int smallestY = 100;
+        int smallestYX = 100;
+
         int biggestY  = -1;
+        int biggestYX = -1;
 
         for (int i = 0; i < gridPositions.Count; i++)
         {
-            if (gridPositions[i].Y < smallestY) smallestY = (int)gridPositions[i].Y;
-            if (gridPositions[i].Y > biggestY)  biggestY  = (int)gridPositions[i].Y;
+            if (gridPositions[i].Y < smallestY) {smallestY = (int)gridPositions[i].Y; smallestYX = (int)gridPositions[i].X; }
+            if (gridPositions[i].Y > biggestY)  {biggestY  = (int)gridPositions[i].Y; biggestYX = (int)gridPositions[i].X;  }
         }
 
         extremes[2] = smallestY;
         extremes[3] = biggestY;
 
-        for (int i = 0; i < extremes.Length; i++)
-        {
-            Raylib.DrawText($"{extremes[i]}", 20, 20 * i, 25, Color.White);
-        }
 
+        extremesPositions[2] = new Vector2(smallestYX, smallestY);
+        extremesPositions[3] = new Vector2(biggestYX, biggestY  );
 
-        for (int i = 0; i < gridPositions.Count; i++)
-        {
-            Raylib.DrawText($"{gridPositions[i]}", 20, 20 * i + 80, 25, Color.White);
-        }
     }
 
     public void Move(Vector2 movement)
@@ -106,13 +112,6 @@ public class TetrisPiece
         }
     }
 
-    public bool newCanMoveDown()
-    {
-        int x = (int)gridPositions[3].X;
-        if (game.grid.grid[extremes[3] + 1][x].isBorder || game.grid.grid[extremes[3] + 1][x].isOccupied) return false;
-        return true;
-    }
-
     public bool CanMoveDown()
     {
         for (int i = 0; i < gridPositions.Count; i++)
@@ -120,6 +119,14 @@ public class TetrisPiece
             int x = (int)gridPositions[i].X;
             if (game.grid.grid[extremes[3] + 1][x].isBorder || (game.grid.grid[extremes[3] + 1][x].isOccupied && game.grid.grid[extremes[3] + 1][x].myPiece != this)) return false;
         }
+
+        return true;
+    }
+
+
+    public bool CanMoveSide()
+    {
+        
 
         return true;
     }

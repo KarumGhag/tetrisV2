@@ -15,9 +15,7 @@ public class Game
     public float time;
 
     public bool canSoftDrop = true;
-    public float softDropCoolDown = 0.1f;
-    public float lastSoftDropTime = 0;
-
+    public bool canMoveSide = true;
     public Grid grid = new Grid(21, 11);
     
     TetrisPiece? activePiece;
@@ -42,15 +40,19 @@ public class Game
 
         gravityTimer.active = true;
         gravityTimer.StartTimer();
-        gravityTimer.TimeEndCompleted += OnGravityTimerEnded;
+        gravityTimer.TimerEnded += OnGravityTimerEnded;
 
 
         Timer softDropTimer = new Timer(0.1f, "SoftDropTimer");
-        softDropTimer.TimeEndCompleted += SoftTimerEnded;
+        softDropTimer.TimerEnded += SoftTimerEnded;
+
+        Timer sideMoveTimer = new Timer(0.1f, "SideMoveTimer");
+        sideMoveTimer.TimerEnded += SideMoveTimer;
 
 
         timers.Add(gravityTimer);
         timers.Add(softDropTimer);
+        timers.Add(sideMoveTimer);
 
         while (!Raylib.WindowShouldClose())
         {
@@ -80,22 +82,20 @@ public class Game
         Raylib.CloseWindow();
     }
 
-    private void OnGravityTimerEnded()
-    {
-        activePiece?.Move(new Vector2(0, 1));
-    }
 
-    private void SoftTimerEnded()
-    {
-        canSoftDrop = true;
-    }
+
+    private void OnGravityTimerEnded() { activePiece?.Move(new Vector2(0, 1)); }
+
+    private void SoftTimerEnded() { canSoftDrop = true; }
+
+    private void SideMoveTimer() { canMoveSide = true; }
 }
 
 public class Timer
 {
 
     public delegate void TimeEndSignal();
-    public event TimeEndSignal? TimeEndCompleted;
+    public event TimeEndSignal? TimerEnded;
 
 
     public bool active;
@@ -126,11 +126,10 @@ public class Timer
 
         if (timeLeft < 0) { active = false; EndTimer(); }
     }
-
     public virtual void EndTimer()
     {
         
-        TimeEndCompleted?.Invoke();
+        TimerEnded?.Invoke();
 
         if (autoRestart) StartTimer();
     }
