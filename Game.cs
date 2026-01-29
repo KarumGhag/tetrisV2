@@ -95,7 +95,7 @@ public class Timer
 {
 
     public delegate void TimeEndSignal();
-    public event TimeEndSignal TimeEndCompleted;
+    public event TimeEndSignal? TimeEndCompleted;
 
 
     public bool active;
