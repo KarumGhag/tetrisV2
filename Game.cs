@@ -22,6 +22,7 @@ public class Game
 
 
     public List<Timer> timers = new List<Timer>();
+    List<TetrisPiece> pieces = new List<TetrisPiece>();
 
     public void Run()
     {
@@ -32,11 +33,15 @@ public class Game
 
         TPiece tpiece = new TPiece(this);
         IPiece ipiece = new IPiece(this);
-
+        pieces.Add(tpiece);
+        pieces.Add(ipiece);
+        
         activePiece = tpiece;
 
-        Timer gravityTimer = new Timer(1, "GravityTimer", true);
 
+        //Timers:
+
+        Timer gravityTimer = new Timer(1, "GravityTimer", true);
 
         gravityTimer.active = true;
         gravityTimer.StartTimer();
@@ -46,13 +51,23 @@ public class Game
         Timer softDropTimer = new Timer(0.1f, "SoftDropTimer");
         softDropTimer.TimerEnded += SoftTimerEnded;
 
+
         Timer sideMoveTimer = new Timer(0.1f, "SideMoveTimer");
         sideMoveTimer.TimerEnded += SideMoveTimer;
+
+
+        Timer stopActiveTimer = new Timer(0.5f, "StopActiveTimer");
+        stopActiveTimer.TimerEnded += StopActiveTimer;
+
 
 
         timers.Add(gravityTimer);
         timers.Add(softDropTimer);
         timers.Add(sideMoveTimer);
+        timers.Add(stopActiveTimer);
+
+
+
 
         while (!Raylib.WindowShouldClose())
         {
@@ -69,8 +84,14 @@ public class Game
                 timer.Update();
             }
 
-            // if (Raylib.IsKeyDown(KeyboardKey.W) && time - lastSoftDropTime > softDropCoolDown) {activePiece.Move(new Vector2(0, 1)); lastSoftDropTime = time;}
-            if (Raylib.IsKeyDown(KeyboardKey.W) && canSoftDrop) {activePiece.Move(new Vector2(0, 1)); softDropTimer.StartTimer(); canSoftDrop = false; }
+
+            if (Raylib.IsKeyDown(KeyboardKey.W) && canSoftDrop) {activePiece.Move(new Vector2( 0, 1)); softDropTimer.StartTimer(); canSoftDrop = false; }
+            if (Raylib.IsKeyDown(KeyboardKey.D) && canMoveSide) {activePiece.Move(new Vector2( 1, 0)); sideMoveTimer.StartTimer(); canMoveSide = false; }
+            if (Raylib.IsKeyDown(KeyboardKey.A) && canMoveSide) {activePiece.Move(new Vector2(-1, 0)); sideMoveTimer.StartTimer(); canMoveSide = false; }
+
+            if (!activePiece.CanMoveDown()) stopActiveTimer.StartTimer();
+
+
             
             activePiece.Draw();
 
@@ -89,6 +110,17 @@ public class Game
     private void SoftTimerEnded() { canSoftDrop = true; }
 
     private void SideMoveTimer() { canMoveSide = true; }
+
+    private void StopActiveTimer() { activePiece = GeneratePiece(); }
+
+    private TetrisPiece GeneratePiece()
+    {
+        Console.WriteLine("test");
+        Random random = new Random();
+        random.Next(0, 1);
+
+        return pieces[random.Next(0, 1)];
+    }
 }
 
 public class Timer

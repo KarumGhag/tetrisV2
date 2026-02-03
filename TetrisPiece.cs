@@ -92,6 +92,7 @@ public class TetrisPiece
     {
         SetExtremes();
         if(!CanMoveDown()) movement.Y = 0;
+        if(!CanMoveSide(movement.X == 1)) movement.X = 0;
 
         for (int i = 0; i < gridPositions.Count; i++)
         {
@@ -117,16 +118,31 @@ public class TetrisPiece
         for (int i = 0; i < gridPositions.Count; i++)
         {
             int x = (int)gridPositions[i].X;
-            if (game.grid.grid[extremes[3] + 1][x].isBorder || (game.grid.grid[extremes[3] + 1][x].isOccupied && game.grid.grid[extremes[3] + 1][x].myPiece != this)) return false;
+            int y = (int)gridPositions[i].Y;
+
+            GridPiece cellBelow = game.grid.grid[y + 1][x];
+            if (cellBelow.isBorder || cellBelow.isOccupied && cellBelow.myPiece != this) return false;
         }
 
         return true;
     }
 
 
-    public bool CanMoveSide()
+    public bool CanMoveSide(bool right)
     {
-        
+        for (int i = 0; i < gridPositions.Count; i++)
+        {
+            int x = (int)gridPositions[i].X;
+            int y = (int)gridPositions[i].Y;
+
+            GridPiece cellSide;
+
+            if (right) cellSide = game.grid.grid[y][x + 1];
+            else cellSide = game.grid.grid[y][x - 1];
+
+
+            if (cellSide.isBorder || cellSide.isOccupied && cellSide.myPiece != this) return false;
+        }
 
         return true;
     }
