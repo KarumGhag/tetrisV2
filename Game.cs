@@ -57,7 +57,7 @@ public class Game
         sideMoveTimer.TimerEnded += SideMoveTimer;
 
 
-        Timer stopActiveTimer = new Timer(1f, "StopActiveTimer");
+        Timer stopActiveTimer = new Timer(0.5f, "StopActiveTimer");
         stopActiveTimer.TimerEnded += StopActiveTimer;
 
 
@@ -78,20 +78,22 @@ public class Game
             grid.Update();
 
 
-            // Console.WriteLine($"{activePiece.canMoveDown}");
 
             if (Raylib.IsKeyDown(KeyboardKey.W) && canSoftDrop) {activePiece.Move(new Vector2( 0, 1)); softDropTimer.StartTimer(); canSoftDrop = false; }
-            if (Raylib.IsKeyDown(KeyboardKey.D) && canMoveSide) {activePiece.Move(new Vector2( 1, 0)); sideMoveTimer.StartTimer(); canMoveSide = false; }
-            if (Raylib.IsKeyDown(KeyboardKey.A) && canMoveSide) {activePiece.Move(new Vector2(-1, 0)); sideMoveTimer.StartTimer(); canMoveSide = false; }
 
-            if (activePiece.canMoveDown)  { stopActiveTimer.CancelTimer(); Console.WriteLine("test"); }
-            if (!activePiece.canMoveDown) { stopActiveTimer.StartTimer();  } 
+            if (Raylib.IsKeyDown(KeyboardKey.D) && canMoveSide) {activePiece.Move(new Vector2( 1, 0)); sideMoveTimer.StartTimer(); canMoveSide = false; 
+            stopActiveTimer.StartTimer(); }
+
+            if (Raylib.IsKeyDown(KeyboardKey.A) && canMoveSide) {activePiece.Move(new Vector2(-1, 0)); sideMoveTimer.StartTimer(); canMoveSide = false; 
+            stopActiveTimer.StartTimer(); }
+
+            if (activePiece.canMoveDown && stopActiveTimer.active) { stopActiveTimer.CancelTimer(); Console.WriteLine("test"); }
+            if (!activePiece.canMoveDown && !stopActiveTimer.active) { stopActiveTimer.StartTimer();  } 
 
 
             Raylib.DrawText($"{stopActiveTimer.active}", 20, 300, 25, Color.White);
 
             if (Raylib.IsKeyReleased(KeyboardKey.E)) {activePiece =  GeneratePiece();}
-
 
             
 
@@ -180,7 +182,6 @@ public class Timer
     {
         if (timeLeft == maxTime) return;
 
-        Console.WriteLine("reset");
         timeLeft = maxTime;
         active = false;
 
