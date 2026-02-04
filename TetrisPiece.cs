@@ -190,3 +190,48 @@ public class IPiece : TetrisPiece
         gridPositions = new List<Vector2>() { new Vector2(5, 0), new Vector2(5, 1), new Vector2(5, 2), new Vector2(5, 3) };
     }
 }
+
+public class OPiece : TetrisPiece
+{
+    public OPiece(Game game) : base(game)
+    {
+        colour = Color.Yellow;
+        gridPositions = new List<Vector2>() { new Vector2(5, 0), new Vector2(6, 0), new Vector2(5, 1), new Vector2(6, 1) };
+    }
+}
+
+public class SPiece : TetrisPiece
+{
+    public SPiece(Game game) : base(game)
+    {
+        colour = Color.Red;
+        gridPositions = new List<Vector2>() {new Vector2(4, 0), new Vector2(5, 0), new Vector2(5, 1), new Vector2(5, 1)};
+    }
+}
+
+public class ZPiece : TetrisPiece
+{
+    public ZPiece(Game game) : base(game)
+    {
+        colour = Color.Green;
+        gridPositions = new List<Vector2>() {new Vector2(6, 0), new Vector2(5, 0), new Vector2(5, 1), new Vector2(4, 1)};
+    }
+}
+
+public class LPiece : TetrisPiece
+{
+    public LPiece(Game game) : base(game)
+    {
+        colour = Color.Orange;
+        gridPositions = new List<Vector2>() {new Vector2(5, 0), new Vector2(5, 1), new Vector2(5, 2), new Vector2(6, 2)};
+    }
+}
+
+public class JPiece : TetrisPiece
+{
+    public JPiece(Game game) : base(game)
+    {
+        colour = Color.Blue;
+        gridPositions = new List<Vector2>() {new Vector2(5, 0), new Vector2(5, 1), new Vector2(5, 2), new Vector2(4, 2)};
+    }
+}

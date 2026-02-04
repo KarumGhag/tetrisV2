@@ -40,10 +40,6 @@ public class Game
 
         grid.MakeGrid();
 
-        TPiece tpiece = new TPiece(this);
-        IPiece ipiece = new IPiece(this);
-        pieces.Add(tpiece);
-        pieces.Add(ipiece);
         
         activePiece = GeneratePiece();
 
@@ -129,9 +125,15 @@ public class Game
     {
         // create a new instance each spawn and use proper random range
         Random random = new Random();
-        int idx = random.Next(0, 2); // 0 or 1
-
-        return idx == 0 ? new TPiece(this) : (TetrisPiece)new IPiece(this);
+        int idx = random.Next(0, 7); 
+        Console.WriteLine(idx);
+        if (idx == 0) return new TPiece(this);
+        if (idx == 1) return new IPiece(this);
+        if (idx == 2) return new OPiece(this);
+        if (idx == 3) return new ZPiece(this);
+        if (idx == 4) return new SPiece(this);
+        if (idx == 5) return new JPiece(this);
+        return new LPiece(this);
     }
 }
 
