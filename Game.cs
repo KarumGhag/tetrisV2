@@ -84,9 +84,11 @@ public class Game
             if (Raylib.IsKeyDown(KeyboardKey.D) && canMoveSide) {activePiece.Move(new Vector2( 1, 0)); sideMoveTimer.StartTimer(); canMoveSide = false; }
             if (Raylib.IsKeyDown(KeyboardKey.A) && canMoveSide) {activePiece.Move(new Vector2(-1, 0)); sideMoveTimer.StartTimer(); canMoveSide = false; }
 
-            if (activePiece.CanMoveDown())  { stopActiveTimer.timeLeft = stopActiveTimer.maxTime; stopActiveTimer.active = false; }
-            if (!activePiece.CanMoveDown()) { stopActiveTimer.StartTimer(); }
+            if (activePiece.canMoveDown)  { stopActiveTimer.CancelTimer(); Console.WriteLine("test"); }
+            if (!activePiece.canMoveDown) { stopActiveTimer.StartTimer();  } 
 
+
+            Raylib.DrawText($"{stopActiveTimer.active}", 20, 300, 25, Color.White);
 
             if (Raylib.IsKeyReleased(KeyboardKey.E)) {activePiece =  GeneratePiece();}
 
@@ -166,11 +168,21 @@ public class Timer
 
         if (timeLeft < 0) { active = false; EndTimer(); }
     }
-    public virtual void EndTimer()
+    public void EndTimer()
     {
         
         TimerEnded?.Invoke();
 
         if (autoRestart) StartTimer();
+    }
+
+    public void CancelTimer()
+    {
+        if (timeLeft == maxTime) return;
+
+        Console.WriteLine("reset");
+        timeLeft = maxTime;
+        active = false;
+
     }
 }

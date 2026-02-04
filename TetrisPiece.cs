@@ -29,7 +29,8 @@ public class TetrisPiece
     public void Draw()
     {
         canMoveDown = CanMoveDown();
-        if (!canMoveDown) Console.WriteLine("test");
+
+        Raylib.DrawText($"{canMoveDown}", 20, 250, 25, Color.White);
 
         foreach (Vector2 vector in gridPositions)
         {
@@ -131,21 +132,25 @@ public class TetrisPiece
             int y = (int)gridPositions[i].Y;
 
             GridPiece cellBelow = game.grid.grid[y + 1][x];
+
             // if (cellBelow.myPiece != null) Console.WriteLine($"{cellBelow.myPiece?.id} {id}");
-            if ((cellBelow.isBorder || cellBelow.isOccupied) && cellBelow.myPiece?.id != id) 
+            // if ((cellBelow.isBorder || cellBelow.isOccupied) && cellBelow.myPiece?.id != id) 
+            // {
+            //     Console.WriteLine($"1: is border below:   {cellBelow.isBorder}");
+            //     Console.WriteLine($"2: is occupied below: {cellBelow.isOccupied}");
+            //     Console.WriteLine($"3: same id below:     {cellBelow.myPiece?.id == id}");
+            //     Console.WriteLine($"4: is null below:     {cellBelow.myPiece == null}");
+            //     Console.WriteLine($"5: all:               {(cellBelow.isBorder || cellBelow.isOccupied) && cellBelow.myPiece?.id == id}");
+            //     Console.WriteLine($"6: is not null but id {cellBelow.myPiece != null && cellBelow.myPiece?.id == id}");
+            // }
+
+            if (cellBelow.isOccupied && cellBelow.myPiece?.id != id && cellBelow.myPiece != null) 
             {
-                Console.WriteLine($"1: is border below:   {cellBelow.isBorder}");
-                Console.WriteLine($"2: is occupied below: {cellBelow.isOccupied}");
-                Console.WriteLine($"3: same id below:     {cellBelow.myPiece?.id == id}");
-                Console.WriteLine($"4: is null below:     {cellBelow.myPiece == null}");
-                Console.WriteLine($"5: all:               {(cellBelow.isBorder || cellBelow.isOccupied) && cellBelow.myPiece?.id == id}");
-                Console.WriteLine($"6: is not null but id {cellBelow.myPiece != null && cellBelow.myPiece?.id == id}");
+                Console.WriteLine("occupied below");
+                Console.WriteLine(cellBelow.myPiece == null);
             }
-            if ((cellBelow.isBorder || cellBelow.isOccupied))
-            {
-                if (cellBelow.myPiece == null && (cellBelow.isBorder || cellBelow.isOccupied)) return false;
-                else if (cellBelow.myPiece?.id != id && (cellBelow.isBorder || cellBelow.isOccupied)) return false;
-            } 
+
+            if (cellBelow.isBorder || (cellBelow.isOccupied && cellBelow.myPiece?.id != id && cellBelow.myPiece != null)) return false;
         }
 
         return true;

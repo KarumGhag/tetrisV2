@@ -25,8 +25,8 @@ public class GridPiece
 
         if (isBorder) colour = Color.Red;
 
-
         Raylib.DrawRectangleV(position, new Vector2(pieceSize, pieceSize), colour);
+        Raylib.DrawText($"{myPiece?.id}", (int)position.X, (int)position.Y, 10, Color.Black);
     }
 }
 public class Grid
