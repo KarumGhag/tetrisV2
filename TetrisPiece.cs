@@ -12,16 +12,25 @@ public class TetrisPiece
     public Color colour;
     public List<Vector2> gridPositions = new List<Vector2>();
 
+    public bool canMoveDown = true;
+
     int[] extremes = new int[4];
     Vector2[] extremesPositions = new Vector2[4];
 
+    static int numberPieces = 0;
+    public int id;
     public TetrisPiece(Game game)
     {
         this.game = game;
+        numberPieces += 1;
+        id = numberPieces;
     }
 
     public void Draw()
     {
+        canMoveDown = CanMoveDown();
+        if (!canMoveDown) Console.WriteLine("test");
+
         foreach (Vector2 vector in gridPositions)
         {
             int x = (int)vector.X;
@@ -109,8 +118,9 @@ public class TetrisPiece
 
             gridPositions[i] = newCoord;
             game.grid.grid[(int)newCoord.Y][(int)newCoord.X].isOccupied = true;
-            
         }
+
+        Draw();
     }
 
     public bool CanMoveDown()
@@ -121,7 +131,21 @@ public class TetrisPiece
             int y = (int)gridPositions[i].Y;
 
             GridPiece cellBelow = game.grid.grid[y + 1][x];
-            if (cellBelow.isBorder || cellBelow.isOccupied && cellBelow.myPiece != this) return false;
+            // if (cellBelow.myPiece != null) Console.WriteLine($"{cellBelow.myPiece?.id} {id}");
+            if ((cellBelow.isBorder || cellBelow.isOccupied) && cellBelow.myPiece?.id != id) 
+            {
+                Console.WriteLine($"1: is border below:   {cellBelow.isBorder}");
+                Console.WriteLine($"2: is occupied below: {cellBelow.isOccupied}");
+                Console.WriteLine($"3: same id below:     {cellBelow.myPiece?.id == id}");
+                Console.WriteLine($"4: is null below:     {cellBelow.myPiece == null}");
+                Console.WriteLine($"5: all:               {(cellBelow.isBorder || cellBelow.isOccupied) && cellBelow.myPiece?.id == id}");
+                Console.WriteLine($"6: is not null but id {cellBelow.myPiece != null && cellBelow.myPiece?.id == id}");
+            }
+            if ((cellBelow.isBorder || cellBelow.isOccupied))
+            {
+                if (cellBelow.myPiece == null && (cellBelow.isBorder || cellBelow.isOccupied)) return false;
+                else if (cellBelow.myPiece?.id != id && (cellBelow.isBorder || cellBelow.isOccupied)) return false;
+            } 
         }
 
         return true;
