@@ -133,23 +133,6 @@ public class TetrisPiece
 
             GridPiece cellBelow = game.grid.grid[y + 1][x];
 
-            // if (cellBelow.myPiece != null) Console.WriteLine($"{cellBelow.myPiece?.id} {id}");
-            // if ((cellBelow.isBorder || cellBelow.isOccupied) && cellBelow.myPiece?.id != id) 
-            // {
-            //     Console.WriteLine($"1: is border below:   {cellBelow.isBorder}");
-            //     Console.WriteLine($"2: is occupied below: {cellBelow.isOccupied}");
-            //     Console.WriteLine($"3: same id below:     {cellBelow.myPiece?.id == id}");
-            //     Console.WriteLine($"4: is null below:     {cellBelow.myPiece == null}");
-            //     Console.WriteLine($"5: all:               {(cellBelow.isBorder || cellBelow.isOccupied) && cellBelow.myPiece?.id == id}");
-            //     Console.WriteLine($"6: is not null but id {cellBelow.myPiece != null && cellBelow.myPiece?.id == id}");
-            // }
-
-            if (cellBelow.isOccupied && cellBelow.myPiece?.id != id && cellBelow.myPiece != null) 
-            {
-                Console.WriteLine("occupied below");
-                Console.WriteLine(cellBelow.myPiece == null);
-            }
-
             if (cellBelow.isBorder || (cellBelow.isOccupied && cellBelow.myPiece?.id != id && cellBelow.myPiece != null)) return false;
         }
 

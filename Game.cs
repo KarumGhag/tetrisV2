@@ -87,7 +87,7 @@ public class Game
             if (Raylib.IsKeyDown(KeyboardKey.A) && canMoveSide) {activePiece.Move(new Vector2(-1, 0)); sideMoveTimer.StartTimer(); canMoveSide = false; 
             stopActiveTimer.StartTimer(); }
 
-            if (activePiece.canMoveDown && stopActiveTimer.active) { stopActiveTimer.CancelTimer(); Console.WriteLine("test"); }
+            if (activePiece.canMoveDown && stopActiveTimer.active)   { stopActiveTimer.CancelTimer(); }
             if (!activePiece.canMoveDown && !stopActiveTimer.active) { stopActiveTimer.StartTimer();  } 
 
 
