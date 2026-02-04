@@ -123,10 +123,9 @@ public class Game
 
     private TetrisPiece GeneratePiece()
     {
-        // create a new instance each spawn and use proper random range
         Random random = new Random();
         int idx = random.Next(0, 7); 
-        Console.WriteLine(idx);
+
         if (idx == 0) return new TPiece(this);
         if (idx == 1) return new IPiece(this);
         if (idx == 2) return new OPiece(this);

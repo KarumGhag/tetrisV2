@@ -205,7 +205,7 @@ public class SPiece : TetrisPiece
     public SPiece(Game game) : base(game)
     {
         colour = Color.Red;
-        gridPositions = new List<Vector2>() {new Vector2(4, 0), new Vector2(5, 0), new Vector2(5, 1), new Vector2(5, 1)};
+        gridPositions = new List<Vector2>() {new Vector2(4, 0), new Vector2(5, 0), new Vector2(5, 1), new Vector2(6, 1)};
     }
 }
 
