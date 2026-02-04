@@ -25,6 +25,14 @@ public class Game
     List<Timer> timers = new List<Timer>();
     List<TetrisPiece> pieces = new List<TetrisPiece>();
 
+
+    Timer gravityTimer = new Timer(1, "GravityTimer", true);
+    Timer softDropTimer = new Timer(0.1f, "SoftDropTimer");
+    Timer sideMoveTimer = new Timer(0.1f, "SideMoveTimer");
+    public Timer stopActiveTimer = new Timer(0.5f, "StopActiveTimer");
+
+
+
     public void Run()
     {
 
@@ -41,23 +49,14 @@ public class Game
 
 
         //Timers:
-
-        Timer gravityTimer = new Timer(1, "GravityTimer", true);
-
         gravityTimer.active = true;
         gravityTimer.StartTimer();
         gravityTimer.TimerEnded += OnGravityTimerEnded;
 
-
-        Timer softDropTimer = new Timer(0.1f, "SoftDropTimer");
         softDropTimer.TimerEnded += SoftTimerEnded;
 
-
-        Timer sideMoveTimer = new Timer(0.1f, "SideMoveTimer");
         sideMoveTimer.TimerEnded += SideMoveTimer;
-
-
-        Timer stopActiveTimer = new Timer(0.5f, "StopActiveTimer");
+        
         stopActiveTimer.TimerEnded += StopActiveTimer;
 
 
@@ -80,6 +79,7 @@ public class Game
 
 
             if (Raylib.IsKeyDown(KeyboardKey.W) && canSoftDrop) {activePiece.Move(new Vector2( 0, 1)); softDropTimer.StartTimer(); canSoftDrop = false; }
+            if (Raylib.IsKeyReleased(KeyboardKey.S)) {activePiece.HardDrop(); }
 
             if (Raylib.IsKeyDown(KeyboardKey.D) && canMoveSide) {activePiece.Move(new Vector2( 1, 0)); sideMoveTimer.StartTimer(); canMoveSide = false; 
             stopActiveTimer.StartTimer(); }

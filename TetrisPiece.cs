@@ -160,6 +160,17 @@ public class TetrisPiece
     }
 
 
+    public void HardDrop()
+    {
+        while (true)
+        {
+            Move(new Vector2(0, 1));
+            if (!canMoveDown) break;
+        }
+        game.stopActiveTimer.EndTimer();
+    }
+
+
 }
 
 public class TPiece : TetrisPiece
